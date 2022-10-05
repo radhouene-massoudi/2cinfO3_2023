@@ -1,0 +1,22 @@
+<table border="2">
+<tr>
+<td>ref
+</td>
+<td>title*
+</td>
+<td>Action*
+</td>
+</tr>
+{% for f in forma %}
+<tr>
+<td>
+{{f.ref}}</td>
+<td>
+{{f.Titre |upper}}
+</td>
+<td>
+<a href="{{path('detail',{'id':f.ref})}}">detail </a>
+</td>
+</tr>{% endfor %}</table>
+
+
