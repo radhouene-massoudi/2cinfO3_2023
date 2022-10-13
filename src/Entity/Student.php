@@ -9,9 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Student
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(length: 255)]
+    private ?string $cin = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -22,9 +21,15 @@ class Student
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    public function getId(): ?int
+    public function getCin()
     {
-        return $this->id;
+        return $this->cin;
+    }
+    public function setCin(string $cin)
+    {
+        $this->cin = $cin;
+
+        return $this;
     }
 
     public function getName(): ?string
