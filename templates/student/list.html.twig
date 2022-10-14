@@ -1,7 +1,28 @@
-{% for student in students %}
+<a href="{{path('add')}}">add </a>
 
-{{student.cin}}
-{{student.name}}
+<table border="2">
+<tr>
+<td>cin</td>
+<td>name</td>
+<td>surname</td>
+<td>Created At</td>
+<td>Action</td>
+</tr>
+{% for student in students %}
+<tr>
+<td>{{student.cin}}</td>
+<td>{{student.name |upper}}</td>
+<td>{{student.surname}}</td>
+<td>{{student.createdAt |date('d-y-m')}}</td>
+<td> <a href="{{path('detailstudent',{'id':student.cin})}}">detail</a>
+<a href="{{path('up',{'id':student.cin})}}">update</a>
+<a href="{{path('remove',{'id':student.cin})}}">remove</a>
+</td>
+</tr>
+
+
 
 
 {% endfor %}
+
+</table>
