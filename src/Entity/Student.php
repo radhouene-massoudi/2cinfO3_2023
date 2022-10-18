@@ -21,6 +21,9 @@ class Student
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\ManyToOne(inversedBy: 'st')]
+    private ?Classroom $grade = null;
+
     public function getCin()
     {
         return $this->cin;
@@ -64,6 +67,18 @@ class Student
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getGrade(): ?Classroom
+    {
+        return $this->grade;
+    }
+
+    public function setGrade(?Classroom $grade): self
+    {
+        $this->grade = $grade;
 
         return $this;
     }

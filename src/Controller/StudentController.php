@@ -2,9 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Classroom;
 use App\Entity\Student;
+use App\Form\St2Type;
 use App\Form\StType;
+use App\Repository\ClassroomRepository;
 use App\Repository\StudentRepository;
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -125,4 +130,40 @@ $form->handleRequest($req);
         }
         
     }
+
+    #[Route('/addstttt/{id}', name: 'addSttt')]
+    public function addSt(ManagerRegistry $mg,Request $req,StudentRepository $repo,Classroom $c): Response
+    {
+        $st=new Student();
+        
+        $form=$this->createForm(St2Type::class,$st);
+$form->handleRequest($req);
+       
+       if($form->isSubmitted()){
+        $cin=$st->getCin();
+      $result=$repo->find($cin);
+      if($result==null){
+        $st->setCreatedAt(new DateTimeImmutable());
+        $st->setGrade($c);
+        $em=$mg->getManager();
+        $em->persist($st);
+        $em->flush();
+        return $this->redirectToRoute('listehhhhh');
+      }else{
+        return new Response('cin deja existe ');
+      }
+
+}
+        return $this->render('student/add.html.twig', [
+            'f' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/fetchclassroom', name: 'fetchclassroom')]
+    public function fetchclassroom(ClassroomRepository $repo): Response
+    {
+        return $this->render('student/class.html.twig', [
+            'grades' => $repo->findAll(),
+        ]);
+    } 
 }

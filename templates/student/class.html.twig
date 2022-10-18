@@ -1,0 +1,22 @@
+
+
+<table border="2">
+<tr>
+<td>id</td>
+<td>name</td>
+<td>Action</td>
+</tr>
+{% for klass in grades %}
+<tr>
+<td>{{ klass.id}}</td>
+<td>{{ klass.name |upper}}</td>
+<td> <a href="{{path('addSttt',{'id':klass.id})}}">add student</a>
+</td>
+</tr>
+
+
+
+
+{% endfor %}
+
+</table>
