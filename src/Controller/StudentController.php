@@ -10,6 +10,8 @@ use App\Repository\ClassroomRepository;
 use App\Repository\StudentRepository;
 use DateTime;
 use DateTimeImmutable;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -159,11 +161,32 @@ $form->handleRequest($req);
         ]);
     }
 
-    #[Route('/fetchclassroom', name: 'fetchclassroom')]
-    public function fetchclassroom(ClassroomRepository $repo): Response
+    #[Route('/fetchclassroom/{id}', name: 'fetchclassroom')]
+    public function fetchclassroom(ClassroomRepository $repo,$id,StudentRepository $st): Response
     {
+        $t=$st->queryBuil();
+        $resul=$st->searchbyclasse($id);
+        dd($resul);
         return $this->render('student/class.html.twig', [
             'grades' => $repo->findAll(),
         ]);
     } 
+
+    #[Route('/dql', name: 'dql')]
+    public function dql(EntityManagerInterface $em)
+    {
+        $cin='1234';
+        $name='rama';
+     // $q=$em->createQuery('SELECT s FROM App\Entity\Student s')->getResult();
+    // $q=$em->createQuery('SELECT count(s) FROM App\Entity\Student s')->getResult();
+   // $q=$em->createQuery('SELECT count(s) FROM App\Entity\Student s')->getSingleScalarResult();
+   //$q = $em->createQuery('SELECT u FROM App\Entity\Student u JOIN u.grade g')->getResult();
+        
+   $q=$em->createQuery("SELECT s FROM App\Entity\Student s WHERE  s.name=:name");
+            $q->setParameter('name','rama');
+            
+      $t= $q->getResult();dd($t);
+        return true;
+    } 
 }
+

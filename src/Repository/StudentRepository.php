@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use SebastianBergmann\Type\FalseType;
 
 /**
  * @extends ServiceEntityRepository<Student>
@@ -63,4 +64,25 @@ class StudentRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function searchbyclasse($value): array
+    {
+        $em=$this->getEntityManager();
+        $req="SELECT s FROM App\Entity\Student s join s.grade t where t.name=:name";
+$q=$em->createQuery($req)
+        ->setParameter('name',$value)
+        ->getSQL();
+        dd($q);
+}
+
+public function queryBuil($con=false)
+   {
+       $req= $this->createQueryBuilder('s')
+            ->select('s.cin')
+            ->join('s.grade','f')
+            ->addSelect('f.name')
+           ->getQuery()
+           ->getResult();
+       ;
+       dd($req);
+   }
 }
